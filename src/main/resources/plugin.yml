@@ -9,3 +9,8 @@ commands:
   ai:
     description: AI Chat
     usage: /ai
+    
+permissions:
+  arkai.reload:
+    description: Reload ArkAI configuration
+    default: op
