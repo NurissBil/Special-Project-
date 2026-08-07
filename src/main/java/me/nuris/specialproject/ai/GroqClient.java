@@ -55,10 +55,7 @@ public class GroqClient {
             body.addProperty("model", "llama-3.3-70b-versatile");
 
             JsonArray messages = new JsonArray();
-            String systemPrompt = plugin.getConfig().getString(
-        "groq.system-prompt",
-        "Ты ArkAI — помощник Minecraft-сервера."
-);
+          
 
             JsonObject system = new JsonObject();
             system.addProperty("role", "system");
