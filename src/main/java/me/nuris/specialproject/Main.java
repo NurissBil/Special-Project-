@@ -58,7 +58,7 @@ public class Main extends JavaPlugin {
                 return true;
             }
 
-            String answer = groqClient.ask(player.getUniqueId(), question);
+            String answer = groqClient.ask(player, question);
 
             player.sendMessage("§a[ArkAI] §f" + answer);
             return true;

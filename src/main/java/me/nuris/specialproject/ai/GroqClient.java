@@ -14,6 +14,8 @@ import java.nio.charset.StandardCharsets;
 import me.nuris.specialproject.chat.ChatMemory;
 import java.util.UUID;
 import me.nuris.specialproject.knowledge.KnowledgeBase;
+import me.nuris.specialproject.context.ServerContext;
+import org.bukkit.entity.Player;
 
 public class GroqClient {
 
@@ -25,8 +27,10 @@ public class GroqClient {
         this.knowledgeBase = knowledgeBase;
     }
 
-    public String ask(UUID uuid, String message) {
-
+    public String ask(Player player, String message) {
+      
+        UUID uuid = player.getUniqueId();
+        
         String apiKey = plugin.getConfig().getString("groq.api-key");
 
         if (apiKey == null || apiKey.isBlank()) {
@@ -58,7 +62,12 @@ public class GroqClient {
 
             JsonObject system = new JsonObject();
             system.addProperty("role", "system");
-            system.addProperty("content", knowledgeBase.getSystemPrompt());
+            String systemPrompt =
+                    knowledgeBase.getSystemPrompt()
+                    + "\n\n"
+                    + ServerContext.build(player);
+
+            system.addProperty("content", systemPrompt);
 
             messages.add(system);
 
