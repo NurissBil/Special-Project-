@@ -1,0 +1,11 @@
+name: SpecialProject
+version: 1.0
+main: me.nuris.specialproject.Main
+api-version: '1.21'
+author: Nurislam
+description: AI NPC Plugin
+
+commands:
+  ai:
+    description: AI Chat
+    usage: /ai
