@@ -13,13 +13,16 @@ import java.net.URI;
 import java.nio.charset.StandardCharsets;
 import me.nuris.specialproject.chat.ChatMemory;
 import java.util.UUID;
+import me.nuris.specialproject.knowledge.KnowledgeBase;
 
 public class GroqClient {
 
     private final JavaPlugin plugin;
+    private final KnowledgeBase knowledgeBase;
 
-    public GroqClient(JavaPlugin plugin) {
+    public GroqClient(JavaPlugin plugin, KnowledgeBase knowledgeBase) {
         this.plugin = plugin;
+        this.knowledgeBase = knowledgeBase;
     }
 
     public String ask(UUID uuid, String message) {
@@ -48,6 +51,16 @@ public class GroqClient {
             body.addProperty("model", "llama-3.3-70b-versatile");
 
             JsonArray messages = new JsonArray();
+            String systemPrompt = plugin.getConfig().getString(
+        "groq.system-prompt",
+        "Ты ArkAI — помощник Minecraft-сервера."
+);
+
+            JsonObject system = new JsonObject();
+            system.addProperty("role", "system");
+            system.addProperty("content", knowledgeBase.getSystemPrompt());
+
+            messages.add(system);
 
         // Добавляем всю историю именно этого игрока
             for (ChatMemory.Message memoryMessage : ChatMemory.getHistory(uuid)) {

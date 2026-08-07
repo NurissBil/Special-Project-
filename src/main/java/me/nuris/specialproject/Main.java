@@ -6,15 +6,19 @@ import org.bukkit.plugin.java.JavaPlugin;
 import me.nuris.specialproject.ai.GroqClient;
 import org.bukkit.entity.Player;
 import me.nuris.specialproject.chat.ChatMemory;
+import me.nuris.specialproject.knowledge.KnowledgeBase;
 
 public class Main extends JavaPlugin {
     private GroqClient groqClient;
+    private KnowledgeBase knowledgeBase;
 
     @Override
     public void onEnable() {
         saveDefaultConfig();
+        knowledgeBase = new KnowledgeBase(this);
+        knowledgeBase.load();
         ChatMemory.init(this);
-        groqClient = new GroqClient(this);
+        groqClient = new GroqClient(this, knowledgeBase);
         getLogger().info("SpecialProject запущен!");
     }
 
@@ -36,6 +40,7 @@ public class Main extends JavaPlugin {
                 }
 
                 reloadConfig();
+                knowledgeBase.load();
 
                 sender.sendMessage("§a[ArkAI] Конфигурация перезагружена!");
                 return true;
