@@ -42,7 +42,7 @@ public class GroqClient {
             ChatMemory.add(uuid, "user", message);
 
             HttpURLConnection connection =
-                (HttpURLConnection) URI.create("https://api.groq.com    /openai/v1/chat/completions")
+                (HttpURLConnection) URI.create("https://api.groq.com/openai/v1/chat/completions")
                             .toURL()
                             .openConnection();
  
